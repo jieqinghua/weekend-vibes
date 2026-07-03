@@ -14,7 +14,7 @@
 | 2. 初始化仓库 | 已完成 | 本地 Git 仓库已初始化，默认分支为 `main`。 |
 | 3. 创建 GitHub 仓库 | 已完成 | 已创建私有仓库 `jieqinghua/weekend-vibes`，并关联为本地 `origin`。 |
 | 4. 首次提交与上传 | 已完成 | 首批 21 个文件已提交并推送到远程 `main`，本地分支已跟踪 `origin/main`。 |
-| 5. 配置 Pages | 待执行 | 修正 Vite `base` 和静态资源路径，添加 GitHub Actions，使 `main` 更新后自动构建并发布 `dist/`。 |
+| 5. 配置 Pages | 进行中 | 仓库已公开；正在配置 Vite `base`、静态资源路径和 GitHub Actions，随后启用 Pages 并验证首次部署。 |
 | 6. 后续内容维护 | 待执行 | 修改 `src/data/projects.ts`；图片放入 `public/projects/`；本地检查、提交并推送。 |
 | 7. 发布后验收 | 待执行 | 检查线上图片、二维码、第三方嵌入、移动端和外部链接。 |
 
@@ -33,6 +33,19 @@ git push -u origin main
 ```
 
 将 `<username>` 和 `<repository>` 替换为实际值。若 Git 尚未配置身份，需要先按 Git 提示设置提交用户名和邮箱。
+
+## GitHub Pages 发布步骤
+
+当前仓库是私有仓库：GitHub Free 需要先把仓库改为公开；GitHub Pro、Team 或 Enterprise 可以从私有仓库发布。无论仓库是否私有，常规 Pages 网站都会公开访问。
+
+1. 在 `vite.config.ts` 中设置 `base: '/weekend-vibes/'`。
+2. 将 `src/data/projects.ts` 和 `src/App.tsx` 中以 `/projects/`、`/contact/` 开头的静态资源路径改为基于 `import.meta.env.BASE_URL` 的路径。
+3. 新建 `.github/workflows/deploy.yml`，在推送 `main` 时执行 `npm ci`、`npm run build`，上传 `dist/` 并调用 Pages 部署动作。
+4. 本地执行 `npm run build`，检查生成的 `dist/index.html` 资源地址包含 `/weekend-vibes/`；再进行生产预览和页面验收。
+5. 提交上述变更并推送到 `main`。
+6. 打开 GitHub 仓库 **Settings → Pages → Build and deployment → Source**，选择 **GitHub Actions**。
+7. 在 **Actions** 页面等待部署工作流完成，然后访问 `https://jieqinghua.github.io/weekend-vibes/`。
+8. 后续修改作品内容并推送 `main` 时，工作流自动重新构建和发布。
 
 ## 日常更新流程
 
@@ -54,6 +67,7 @@ fix: correct project image path
 ## 关键决策
 
 - GitHub 仓库确定为 `jieqinghua/weekend-vibes`，首次创建为私有仓库；后续由用户自行调整为公开。
+- 所有 `docs/plan-*.md` 计划文档仅在本地持续维护，通过 `.gitignore` 排除，不再提交到 Git 仓库。
 - 源码保留在主分支，`dist/` 继续由 `.gitignore` 排除，不手动提交构建产物。
 - `*.tsbuildinfo`、`vite.config.js` 和 `vite.config.d.ts` 作为构建缓存或历史产物忽略，不纳入版本管理。
 - 推荐通过 GitHub Actions 构建和发布，避免在本地维护 `gh-pages` 分支。
@@ -65,10 +79,11 @@ fix: correct project image path
 - GitHub CLI 已重新登录账号 `jieqinghua`。
 - 仓库名称已确定为 `weekend-vibes`；未来发布为项目 Pages 时，Vite `base` 应使用 `/weekend-vibes/`。
 - 本地与远程仓库已建立并完成首次同步；当前尚未配置 GitHub Pages。
+- 当前仓库为私有：若账号使用 GitHub Free，需要先改为公开；若使用 GitHub Pro 或更高套餐，可以保持私有仓库发布，但网站仍默认公开。
 - 发布前应替换示例 GitHub 链接，并确认微信二维码等个人信息适合公开。
 - 不应把 API Key、Token、密码或其他秘密写入前端代码；Vite 构建后的前端内容可被访客读取。
 - 后续若多人或多台设备维护，应先拉取再修改，避免直接覆盖远程更新。
 
 ## 最后更新时间
 
-2026-07-03（Asia/Shanghai）；私有仓库创建与首次上传完成，下一阶段为 GitHub Pages 配置。
+2026-07-03（Asia/Shanghai）；仓库已公开，GitHub Pages 配置与首次部署正在执行。
