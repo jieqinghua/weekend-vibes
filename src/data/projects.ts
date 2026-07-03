@@ -20,7 +20,7 @@ export const projects: Project[] = [
     description:
       '从各大互联网公司社招官网自动抓取体验设计相关岗位信息并汇总到 Notion 数据库。',
     tags: ['网络爬虫', '岗位监控', 'Notion'],
-    coverImage: '/projects/jobs-collection.png',
+    coverImage: `${import.meta.env.BASE_URL}projects/jobs-collection.png`,
     bilibiliEmbedUrl:
       'https://app.notion.com/p/jqh2026/3695699d17db8059a151eb71298ca8d9',
     githubUrl: 'https://app.notion.com/p/jqh2026/3695699d17db8059a151eb71298ca8d9',
