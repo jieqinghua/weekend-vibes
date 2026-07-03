@@ -12,8 +12,8 @@
 | --- | --- | --- |
 | 1. 上传前检查 | 已完成 | `npm run build` 已通过；未发现常见密钥格式或超过 20 MB 的项目文件。仍需用户确认公开内容。 |
 | 2. 初始化仓库 | 已完成 | 本地 Git 仓库已初始化，默认分支为 `main`。 |
-| 3. 创建 GitHub 仓库 | 待执行 | 已确认创建 `jieqinghua/weekend-vibes` 私有仓库。 |
-| 4. 首次提交与上传 | 进行中 | 首批 21 个文件已核对并通过构建检查，准备提交、创建远程仓库并推送 `main`。 |
+| 3. 创建 GitHub 仓库 | 已完成 | 已创建私有仓库 `jieqinghua/weekend-vibes`，并关联为本地 `origin`。 |
+| 4. 首次提交与上传 | 已完成 | 首批 21 个文件已提交并推送到远程 `main`，本地分支已跟踪 `origin/main`。 |
 | 5. 配置 Pages | 待执行 | 修正 Vite `base` 和静态资源路径，添加 GitHub Actions，使 `main` 更新后自动构建并发布 `dist/`。 |
 | 6. 后续内容维护 | 待执行 | 修改 `src/data/projects.ts`；图片放入 `public/projects/`；本地检查、提交并推送。 |
 | 7. 发布后验收 | 待执行 | 检查线上图片、二维码、第三方嵌入、移动端和外部链接。 |
@@ -64,11 +64,11 @@ fix: correct project image path
 
 - GitHub CLI 已重新登录账号 `jieqinghua`。
 - 仓库名称已确定为 `weekend-vibes`；未来发布为项目 Pages 时，Vite `base` 应使用 `/weekend-vibes/`。
-- 本地仓库已初始化；远程仓库尚待创建。
+- 本地与远程仓库已建立并完成首次同步；当前尚未配置 GitHub Pages。
 - 发布前应替换示例 GitHub 链接，并确认微信二维码等个人信息适合公开。
 - 不应把 API Key、Token、密码或其他秘密写入前端代码；Vite 构建后的前端内容可被访客读取。
 - 后续若多人或多台设备维护，应先拉取再修改，避免直接覆盖远程更新。
 
 ## 最后更新时间
 
-2026-07-03（Asia/Shanghai）；本地仓库初始化与首批文件检查完成，准备提交并上传。
+2026-07-03（Asia/Shanghai）；私有仓库创建与首次上传完成，下一阶段为 GitHub Pages 配置。
