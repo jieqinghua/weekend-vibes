@@ -227,7 +227,7 @@ export default function App() {
           </div>
           <div className="qr-card reveal">
             <img
-              src="/contact/wechat-qr.png"
+              src={`${import.meta.env.BASE_URL}contact/wechat-qr.png`}
               alt="微信二维码"
               loading="lazy"
             />
