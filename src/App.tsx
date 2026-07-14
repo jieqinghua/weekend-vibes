@@ -3,6 +3,20 @@ import { ArrowRight, ArrowUpRight, Github, Mail, Play, X } from 'lucide-react'
 import { projects } from './data/projects'
 import type { Project } from './types'
 
+function projectFromLocation() {
+  if (typeof window === 'undefined') return null
+  const projectId = new URLSearchParams(window.location.search).get('project')
+  return projects.find((project) => project.id === projectId && !project.linkType) ?? null
+}
+
+function updateProjectUrl(projectId: string | null) {
+  if (typeof window === 'undefined') return
+  const url = new URL(window.location.href)
+  if (projectId) url.searchParams.set('project', projectId)
+  else url.searchParams.delete('project')
+  window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`)
+}
+
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
   const modalRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
@@ -81,13 +95,13 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           <iframe
             key={project.id}
             src={project.bilibiliEmbedUrl}
-            title={`${project.title} 的 Bilibili 演示视频`}
+            title={`${project.title} 的演示视频`}
             allow="autoplay; fullscreen; picture-in-picture"
             allowFullScreen
           />
         </div>
         <div className="modal-foot">
-          <span>当前为示例视频，可在项目数据中替换。</span>
+          <span></span>
           <a href={project.githubUrl} target="_blank" rel="noreferrer">
             查看 GitHub <ArrowUpRight size={16} aria-hidden="true" />
           </a>
@@ -99,12 +113,13 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
 
 function ProjectCard({ project, index, onPlay }: { project: Project; index: number; onPlay: () => void }) {
   const isNotionProject = project.linkType === 'notion'
+  const isExternalProject = project.linkType === 'notion' || project.linkType === 'github'
 
   const previewContent = (
     <>
       <img src={project.coverImage} alt={`${project.title} 项目预览`} loading="lazy" />
       <span className="project-index">0{index + 1}</span>
-      {!isNotionProject && (
+      {!isExternalProject && (
         <span className="play-button" aria-hidden="true">
           <Play size={22} fill="currentColor" />
         </span>
@@ -113,14 +128,14 @@ function ProjectCard({ project, index, onPlay }: { project: Project; index: numb
   )
 
   return (
-    <article className={`project-card reveal${isNotionProject ? ' project-card--notion' : ''}`}>
-      {isNotionProject ? (
+    <article className="project-card reveal">
+      {isExternalProject ? (
         <a
           className="project-preview project-preview--external"
           href={project.githubUrl}
           target="_blank"
           rel="noreferrer"
-          aria-label={`查看 ${project.title} Notion 页面`}
+          aria-label={isNotionProject ? `查看 ${project.title} Notion 页面` : `查看 ${project.title} GitHub 仓库`}
         >
           {previewContent}
         </a>
@@ -165,8 +180,21 @@ function ProjectCard({ project, index, onPlay }: { project: Project; index: numb
 }
 
 export default function App() {
-  const [activeProject, setActiveProject] = useState<Project | null>(null)
-  const closeModal = useCallback(() => setActiveProject(null), [])
+  const [activeProject, setActiveProject] = useState<Project | null>(() => projectFromLocation())
+  const openProject = useCallback((project: Project) => {
+    setActiveProject(project)
+    updateProjectUrl(project.id)
+  }, [])
+  const closeModal = useCallback(() => {
+    setActiveProject(null)
+    updateProjectUrl(null)
+  }, [])
+
+  useEffect(() => {
+    const handleHistoryChange = () => setActiveProject(projectFromLocation())
+    window.addEventListener('popstate', handleHistoryChange)
+    return () => window.removeEventListener('popstate', handleHistoryChange)
+  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -207,7 +235,7 @@ export default function App() {
                 key={project.id}
                 project={project}
                 index={index}
-                onPlay={() => setActiveProject(project)}
+                onPlay={() => openProject(project)}
               />
             ))}
           </section>

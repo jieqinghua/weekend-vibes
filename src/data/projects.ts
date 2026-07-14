@@ -5,13 +5,12 @@ export const projects: Project[] = [
     id: 'tomato-timer',
     title: 'Mac状态栏番茄时钟',
     description:
-      '降低启动番茄的心理阻力，并支持录屏回看专注时间花在哪了。',
+      '降低启动番茄的心理阻力，并支持录屏回看时间花在哪了。',
     tags: ['小工具', '时间管理'],
-    coverImage:
-      'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1800&q=88',
+    coverImage: `${import.meta.env.BASE_URL}projects/tomato-timer.png`,
     bilibiliEmbedUrl:
-      'https://player.bilibili.com/player.html?bvid=BV1hKSwYHEn3&page=1&high_quality=1&danmaku=0&autoplay=1',
-    githubUrl: 'https://github.com/topics/ai-app',
+      'https://player.bilibili.com/player.html?bvid=BV1KoMt67EU7&page=1',
+    githubUrl: 'https://github.com/jieqinghua/tomato-timer',
     featured: true,
   },
   {
@@ -31,13 +30,39 @@ export const projects: Project[] = [
     id: 'idea-pocket',
     title: '灵感口袋笔记APP',
     description:
-      '轻量化的语音转文字笔记，并使用 AI 整理文字和打标签。',
-    tags: ['Vite', 'LLM', 'Map API'],
+      '语音转文字、AI 文字润色、 AI 主题聚合。',
+    tags: ['语音笔记', 'AI 整理', '手机端'],
     coverImage:
-      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=88',
+      `${import.meta.env.BASE_URL}projects/idea-pocket.png`,
     bilibiliEmbedUrl:
-      'https://player.bilibili.com/player.html?bvid=BV1UoLezKEbm&page=1&high_quality=1&danmaku=0&autoplay=1',
-    githubUrl: 'https://github.com/topics/travel-app',
+      'https://player.bilibili.com/player.html?bvid=BV1yFN966EqY&page=1&high_quality=1&danmaku=0&autoplay=1',
+    githubUrl: 'https://github.com/jieqinghua/IdeaPocket',
     featured: false,
-  }
+  },
+  {
+    id: 'remove-dialog',
+    title: '屏蔽知乎登录弹窗的 chrome 插件',
+    description:
+      '自动屏蔽知乎和CSDN网站登录弹窗。',
+    tags: ['插件', '去广告','Chrome'],
+    coverImage: `${import.meta.env.BASE_URL}projects/remove-dialog.png`,
+    bilibiliEmbedUrl:
+      'https://github.com/jieqinghua/remove-login-dialog',
+    githubUrl: 'https://github.com/jieqinghua/remove-login-dialog',
+    featured: false,
+    linkType: 'github',
+  },
+  {
+    id: 'finder-new-txt',
+    title: '一个 Mac 访达新建 txt 的扩展',
+    description:
+      '添加到 Mac 访达菜单后，点击新建文件，会自动新建一个 txt 文件。',
+    tags: ['快捷工具', 'Mac'],
+    coverImage: `${import.meta.env.BASE_URL}projects/finder-new-txt.png`,
+    bilibiliEmbedUrl:
+      'https://github.com/jieqinghua/finder-new-txt',
+    githubUrl: 'https://github.com/jieqinghua/finder-new-txt',
+    featured: false,
+    linkType: 'github',
+  },
 ]
