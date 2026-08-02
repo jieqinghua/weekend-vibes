@@ -17,7 +17,7 @@ export const projects: Project[] = [
     id: 'jobs-collection',
     title: '体验设计岗位监控',
     description:
-      '从各大互联网公司社招官网自动抓取体验设计相关岗位信息并汇总到 Notion 数据库。',
+      '自动抓取各大互联网公司官网社招体验设计相关岗位，并汇总到 Notion 数据库。',
     tags: ['网络爬虫', '岗位监控', 'Notion'],
     coverImage: `${import.meta.env.BASE_URL}projects/jobs-collection.png`,
     bilibiliEmbedUrl:

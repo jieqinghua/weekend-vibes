@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { ArrowRight, ArrowUpRight, Github, Mail, Play, X } from 'lucide-react'
+import { ArrowDown, ArrowRight, ArrowUpRight, Github, Mail, Play, X } from 'lucide-react'
+import { MetalFx } from 'metal-fx'
+import type { CSSProperties } from 'react'
+import { CursorPixelGrid } from './CursorPixelGrid'
 import { projects } from './data/projects'
 import type { Project } from './types'
 
@@ -15,6 +18,41 @@ function updateProjectUrl(projectId: string | null) {
   if (projectId) url.searchParams.set('project', projectId)
   else url.searchParams.delete('project')
   window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`)
+}
+
+type MetalHoverProps = {
+  children: React.ReactNode
+  className?: string
+  style?: CSSProperties
+  variant?: 'button' | 'circle'
+}
+
+function MetalHover({ children, className, style, variant = 'button' }: MetalHoverProps) {
+  const [reducedMotion, setReducedMotion] = useState(false)
+  const rootClassName = ['metal-hover', className].filter(Boolean).join(' ')
+
+  useEffect(() => {
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const sync = () => setReducedMotion(query.matches)
+    sync()
+    query.addEventListener('change', sync)
+    return () => query.removeEventListener('change', sync)
+  }, [])
+
+  return (
+    <MetalFx
+      className={rootClassName}
+      style={style}
+      variant={variant}
+      preset="chromatic"
+      theme="auto"
+      strength={reducedMotion ? 0 : 0.9}
+      paused={reducedMotion}
+      normalizeHostStyles={false}
+    >
+      {children}
+    </MetalFx>
+  )
 }
 
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
@@ -128,54 +166,56 @@ function ProjectCard({ project, index, onPlay }: { project: Project; index: numb
   )
 
   return (
-    <article className="project-card reveal">
-      {isExternalProject ? (
-        <a
-          className="project-preview project-preview--external"
-          href={project.githubUrl}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={isNotionProject ? `查看 ${project.title} Notion 页面` : `查看 ${project.title} GitHub 仓库`}
-        >
-          {previewContent}
-        </a>
-      ) : (
-        <button
-          className="project-preview"
-          type="button"
-          aria-label={`播放 ${project.title} 的演示视频`}
-          onClick={onPlay}
-        >
-          {previewContent}
-        </button>
-      )}
-
-      <div className="project-info">
-        <div className="project-title-row">
-          <h2>{project.title}</h2>
-        </div>
-        <p>{project.description}</p>
-        <div className="project-meta">
-          <ul aria-label="项目技术栈">
-            {project.tags.map((tag) => <li key={tag}>{tag}</li>)}
-          </ul>
-          <a href={project.githubUrl} target="_blank" rel="noreferrer">
-            {isNotionProject ? (
-              <img
-                className="notion-logo"
-                src="https://cdn.simpleicons.org/notion/171714"
-                alt=""
-                aria-hidden="true"
-              />
-            ) : (
-              <Github size={20} aria-hidden="true" />
-            )}
-            {isNotionProject ? '查看页面' : 'GitHub'}
-            <ArrowRight size={16} aria-hidden="true" />
+    <MetalHover className="metal-hover--card">
+      <article className="project-card reveal">
+        {isExternalProject ? (
+          <a
+            className="project-preview project-preview--external"
+            href={project.githubUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={isNotionProject ? `查看 ${project.title} Notion 页面` : `查看 ${project.title} GitHub 仓库`}
+          >
+            {previewContent}
           </a>
+        ) : (
+          <button
+            className="project-preview"
+            type="button"
+            aria-label={`播放 ${project.title} 的演示视频`}
+            onClick={onPlay}
+          >
+            {previewContent}
+          </button>
+        )}
+
+        <div className="project-info">
+          <div className="project-title-row">
+            <h2>{project.title}</h2>
+          </div>
+          <p title={project.description}>{project.description}</p>
+          <div className="project-meta">
+            <ul aria-label="项目技术栈">
+              {project.tags.map((tag) => <li key={tag}>{tag}</li>)}
+            </ul>
+            <a href={project.githubUrl} target="_blank" rel="noreferrer">
+              {isNotionProject ? (
+                <img
+                  className="notion-logo"
+                  src="https://cdn.simpleicons.org/notion/171714"
+                  alt=""
+                  aria-hidden="true"
+                />
+              ) : (
+                <Github size={20} aria-hidden="true" />
+              )}
+              {isNotionProject ? '查看页面' : 'GitHub'}
+              <ArrowRight size={16} aria-hidden="true" />
+            </a>
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </MetalHover>
   )
 }
 
@@ -212,32 +252,51 @@ export default function App() {
   }, [])
 
   return (
-    <div className="site-canvas">
-      <div className="page-frame" id="page-frame">
+    <>
+      <CursorPixelGrid />
+      <div className="site-canvas">
+        <div className="page-frame" id="page-frame">
         <header className="site-header">
           <a className="wordmark" href="#top" aria-label="返回顶部">
             JQH<span>.</span>DESIGN
           </a>
-          <a className="contact-pill" href="#contact">
-            联系我 <ArrowUpRight size={16} aria-hidden="true" />
-          </a>
+          <MetalHover>
+            <a className="contact-pill" href="#contact">
+              联系我 <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
+          </MetalHover>
         </header>
 
         <main id="top">
-          <section className="intro">
-            <p className="intro-kicker">HELLO / 你好</p>
-            <h1>欢迎来到我的<br className="mobile-break" /> <em>Vibe</em> 实验室</h1>
+          <section className="intro" id="about">
+            <div className="intro-copy">
+              <p className="intro-kicker">HELLO / 你好</p>
+              <h1>欢迎来到我的<br className="mobile-break" /> <em>Vibe</em> 实验室</h1>
+              <p className="intro-note">
+                我是一名交互设计师 / AI 学习者，这是我的业余 AI 试验场
+              </p>
+              <div className="intro-actions">
+                <MetalHover>
+                  <a className="button button--primary" href="#work">浏览作品 <ArrowDown size={16} aria-hidden="true" /></a>
+                </MetalHover>
+              </div>
+            </div>
           </section>
 
-          <section className="project-grid" aria-label="Vibe Coding 项目作品">
-            {projects.map((project, index) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                index={index}
-                onPlay={() => openProject(project)}
-              />
-            ))}
+          <section className="work-section" id="work" aria-label="精选作品">
+            <div className="section-heading">
+              <p className="section-label">SELECTED WORKS</p>
+            </div>
+            <div className="project-grid">
+              {projects.map((project, index) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  index={index}
+                  onPlay={() => openProject(project)}
+                />
+              ))}
+            </div>
           </section>
         </main>
 
@@ -262,9 +321,10 @@ export default function App() {
             <span>扫码添加我的微信</span>
           </div>
         </footer>
-      </div>
+        </div>
 
-      {activeProject && <ProjectModal project={activeProject} onClose={closeModal} />}
-    </div>
+        {activeProject && <ProjectModal project={activeProject} onClose={closeModal} />}
+      </div>
+    </>
   )
 }
