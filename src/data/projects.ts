@@ -14,19 +14,6 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    id: 'jobs-collection',
-    title: '体验设计岗位监控',
-    description:
-      '自动抓取各大互联网公司官网社招体验设计相关岗位，并汇总到 Notion 数据库。',
-    tags: ['网络爬虫', '岗位监控', 'Notion'],
-    coverImage: `${import.meta.env.BASE_URL}projects/jobs-collection.png`,
-    bilibiliEmbedUrl:
-      'https://app.notion.com/p/jqh2026/3695699d17db8059a151eb71298ca8d9',
-    githubUrl: 'https://app.notion.com/p/jqh2026/3695699d17db8059a151eb71298ca8d9',
-    featured: true,
-    linkType: 'notion',
-  },
-  {
     id: 'idea-pocket',
     title: '灵感口袋笔记APP',
     description:
@@ -38,6 +25,19 @@ export const projects: Project[] = [
       'https://player.bilibili.com/player.html?bvid=BV1yFN966EqY&page=1&high_quality=1&danmaku=0&autoplay=1',
     githubUrl: 'https://github.com/jieqinghua/IdeaPocket',
     featured: false,
+  },
+  {
+    id: 'jobs-collection',
+    title: '体验设计岗位监控',
+    description:
+      '自动抓取各大互联网公司官网社招体验设计相关岗位，并汇总到 Notion 数据库。',
+    tags: ['网络爬虫', '岗位监控', 'Notion'],
+    coverImage: `${import.meta.env.BASE_URL}projects/jobs-collection.png`,
+    bilibiliEmbedUrl:
+      'https://app.notion.com/p/jqh2026/3695699d17db8059a151eb71298ca8d9',
+    githubUrl: 'https://app.notion.com/p/jqh2026/3695699d17db8059a151eb71298ca8d9',
+    featured: true,
+    linkType: 'notion',
   },
   {
     id: 'remove-dialog',
