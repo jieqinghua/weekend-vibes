@@ -3,6 +3,7 @@ import type { Project } from '../types'
 export const projects: Project[] = [
   {
     id: 'tomato-timer',
+    type: 1,
     title: 'Mac状态栏番茄时钟',
     description:
       '降低启动番茄的心理阻力，并支持录屏回看时间花在哪了。',
@@ -15,6 +16,7 @@ export const projects: Project[] = [
   },
   {
     id: 'idea-pocket',
+    type: 1,
     title: '灵感口袋笔记APP',
     description:
       '语音转文字、AI 文字润色、 AI 主题聚合。',
@@ -28,6 +30,7 @@ export const projects: Project[] = [
   },
   {
     id: 'jobs-collection',
+    type: 1,
     title: '体验设计岗位监控',
     description:
       '自动抓取各大互联网公司官网社招体验设计相关岗位，并汇总到 Notion 数据库。',
@@ -41,6 +44,7 @@ export const projects: Project[] = [
   },
   {
     id: 'remove-dialog',
+    type: 1,
     title: '屏蔽知乎登录弹窗的 chrome 插件',
     description:
       '自动屏蔽知乎和CSDN网站登录弹窗。',
@@ -54,6 +58,7 @@ export const projects: Project[] = [
   },
   {
     id: 'finder-new-txt',
+    type: 1,
     title: '一个 Mac 访达新建 txt 的扩展',
     description:
       '添加到 Mac 访达菜单后，点击新建文件，会自动新建一个 txt 文件。',
@@ -64,5 +69,16 @@ export const projects: Project[] = [
     githubUrl: 'https://github.com/jieqinghua/finder-new-txt',
     featured: false,
     linkType: 'github',
+  },
+  {
+    id: 'eagle-ai',
+    type: 2,
+    title: 'Eagle AI 上手体验',
+    description: '设计素材管理工具 Eagle 的 AI 功能介绍教程。',
+    tags: ['素材管理', '产品体验'],
+    coverImage: `${import.meta.env.BASE_URL}projects/eagle-ai.png`,
+    bilibiliEmbedUrl:
+      'https://player.bilibili.com/player.html?bvid=BV1Dig16rEWG&page=1',
+    featured: false,
   },
 ]

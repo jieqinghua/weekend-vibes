@@ -138,25 +138,31 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
             allowFullScreen
           />
         </div>
-        <div className="modal-foot">
-          <span></span>
-          <a href={project.githubUrl} target="_blank" rel="noreferrer">
-            查看 GitHub <ArrowUpRight size={16} aria-hidden="true" />
-          </a>
-        </div>
+        {project.githubUrl && (
+          <div className="modal-foot">
+            <span></span>
+            <a href={project.githubUrl} target="_blank" rel="noreferrer">
+              查看 GitHub <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
+          </div>
+        )}
       </div>
     </div>
   )
 }
 
-function ProjectCard({ project, index, onPlay }: { project: Project; index: number; onPlay: () => void }) {
+function ProjectCard({ project, onPlay }: { project: Project; onPlay: () => void }) {
   const isNotionProject = project.linkType === 'notion'
   const isExternalProject = project.linkType === 'notion' || project.linkType === 'github'
 
   const previewContent = (
     <>
       <img src={project.coverImage} alt={`${project.title} 项目预览`} loading="lazy" />
-      <span className="project-index">0{index + 1}</span>
+      <span
+        className={`project-type project-type--${project.type === 1 ? 'project' : 'tutorial'}`}
+      >
+        {project.type === 1 ? '项目' : '教程'}
+      </span>
       {!isExternalProject && (
         <span className="play-button" aria-hidden="true">
           <Play size={22} fill="currentColor" />
@@ -198,20 +204,22 @@ function ProjectCard({ project, index, onPlay }: { project: Project; index: numb
             <ul aria-label="项目技术栈">
               {project.tags.map((tag) => <li key={tag}>{tag}</li>)}
             </ul>
-            <a href={project.githubUrl} target="_blank" rel="noreferrer">
-              {isNotionProject ? (
-                <img
-                  className="notion-logo"
-                  src="https://cdn.simpleicons.org/notion/171714"
-                  alt=""
-                  aria-hidden="true"
-                />
-              ) : (
-                <Github size={20} aria-hidden="true" />
-              )}
-              {isNotionProject ? '查看页面' : 'GitHub'}
-              <ArrowRight size={16} aria-hidden="true" />
-            </a>
+            {project.githubUrl && (
+              <a href={project.githubUrl} target="_blank" rel="noreferrer">
+                {isNotionProject ? (
+                  <img
+                    className="notion-logo"
+                    src="https://cdn.simpleicons.org/notion/171714"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <Github size={20} aria-hidden="true" />
+                )}
+                {isNotionProject ? '查看页面' : 'GitHub'}
+                <ArrowRight size={16} aria-hidden="true" />
+              </a>
+            )}
           </div>
         </div>
       </article>
@@ -288,11 +296,10 @@ export default function App() {
               <p className="section-label">SELECTED WORKS</p>
             </div>
             <div className="project-grid">
-              {projects.map((project, index) => (
+              {projects.map((project) => (
                 <ProjectCard
                   key={project.id}
                   project={project}
-                  index={index}
                   onPlay={() => openProject(project)}
                 />
               ))}

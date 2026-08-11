@@ -261,19 +261,27 @@ button:focus-visible {
 .project-preview:hover::after,
 .project-preview:focus-visible::after { opacity: 1; }
 .project-preview:hover img { transform: scale(1.02); }
-.project-index {
+.project-type {
   position: absolute;
   z-index: 2;
   top: 12px;
   left: 12px;
   padding: 4px 7px;
-  border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--background) 90%, transparent);
-  color: var(--muted-foreground);
+  border: 1px solid transparent;
+  border-radius: 4px;
   font-family: var(--mono);
   font-size: 12px;
   line-height: 16px;
+}
+.project-type--project {
+  border-color: color-mix(in srgb, #2563eb 35%, var(--border));
+  background: color-mix(in srgb, #dbeafe 88%, var(--background));
+  color: #1d4ed8;
+}
+.project-type--tutorial {
+  border-color: color-mix(in srgb, #c026d3 35%, var(--border));
+  background: color-mix(in srgb, #fae8ff 88%, var(--background));
+  color: #a21caf;
 }
 .play-button {
   position: absolute;
