@@ -81,4 +81,18 @@ export const projects: Project[] = [
       'https://player.bilibili.com/player.html?bvid=BV1Dig16rEWG&page=1',
     featured: false,
   },
+  {
+    id: 'designmd-extract',
+    type: 1,
+    title: '设计规范提取',
+    description:
+      '从一张或多张 App 截图中提取设计规范，并生成可审阅的设计系统草案。',
+    tags: ['设计系统', '截图分析', 'Codex Skill'],
+    coverImage: `${import.meta.env.BASE_URL}projects/designmd-extract.png`,
+    bilibiliEmbedUrl:
+      'https://github.com/jieqinghua/extract-app-design-system',
+    githubUrl: 'https://github.com/jieqinghua/extract-app-design-system',
+    featured: false,
+    linkType: 'github',
+  },
 ]
